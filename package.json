@@ -7,8 +7,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "react": "16.6.3",
-    "react-native": "0.58.3"
+    "react-native": "0.58.3",
+    "react-native-gesture-handler": "^1.0.15",
+    "react-native-vector-icons": "^6.2.0",
+    "react-navigation": "^3.0.9",
+    "react-redux": "^6.0.0",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
