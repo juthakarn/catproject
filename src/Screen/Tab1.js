@@ -2,18 +2,18 @@ import React from "react";
 import { View, Text, Button } from "react-native";
 import { connect } from 'react-redux'
 
-const Tab1 = ({ auth ,navigation}) => (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Button title="Press to stack " onPress={() => { navigation.navigate('Appointment') }} />
-        <Text>อุปกรณ์เลี้ยงแมวเบื้องต้น</Text>
-        <TextSimulator pop={auth.name} bar='hi there' />
-    </View>
+const Tab1 = ({ auth, navigation }) => (
+  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <Button title="Press to stack " onPress={() => { navigation.navigate('Appointment') }} />
+    <Text>อุปกรณ์เลี้ยงแมวเบื้องต้น</Text>
+    <TextSimulator pop={auth.name} bar='hi there' />
+  </View>
 )
 const TextSimulator = ({ pop, bar }) => (
-    <View>
-        <Text>{pop}</Text>
-        <Text>{bar}</Text>
-    </View>
+  <View>
+    <Text>{pop}</Text>
+    <Text>{bar}</Text>
+  </View>
 )
 // class Tab1 extends React.Component {
 //     render() {
@@ -27,8 +27,8 @@ const TextSimulator = ({ pop, bar }) => (
 //     }
 // }
 const mapStateToProps = (state) => {
-    return {
-        auth: state.auth
-    }
+  return {
+    auth: state.auth
+  }
 }
 export default connect(mapStateToProps, null)(Tab1);

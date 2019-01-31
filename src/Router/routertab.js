@@ -1,9 +1,9 @@
 import React from 'react'
 import { View } from 'react-native'
 import {
-	TabNavigator,
-	TabBarBottom,
-	createStackNavigator
+  TabNavigator,
+  TabBarBottom,
+  createStackNavigator
 } from 'react-navigation'
 import tab1 from '../Screen/Tab1'
 import tab2 from '../Screen/Tab2'

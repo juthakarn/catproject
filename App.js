@@ -7,9 +7,9 @@
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
 
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
-import {Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk'
 import reducers from './src/reducers'
@@ -31,7 +31,7 @@ export default class App extends Component<Props> {
   render() {
     return (
       <Provider store={store}>
-        <Router/>
+        <Router />
       </Provider>
     );
   }

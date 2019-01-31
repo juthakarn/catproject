@@ -14,7 +14,6 @@ const SignUpScreen = ({ onChange, token, navigation, onSubmitHandler, isHasToken
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <View style={styles.logoContainer}>
                 <Image style={styles.logo} source={require('../Component/Image/logo.png')}></Image>
-
                 <Text style={styles.title}>Application for cats</Text>
             </View>
             <View style={styles.formContainer}>
@@ -48,7 +47,7 @@ const SignUpScreen = ({ onChange, token, navigation, onSubmitHandler, isHasToken
                         <Text onPress={onSubmitHandler} style={styles.buttonText}>LOGIN</Text>
                     </TouchableOpacity>
                     <View style={styles.signupTextCont}>
-                        <Text style={styles.signupText}>Don't have an account yet?</Text>Text>
+                        <Text style={styles.signupText}>Don't have an account yet?</Text>
                         <Text title="Sign up" onPress={() => { navigation.navigate('SignUp') }} style={styles.signupbutton}>Sign up</Text>
                     </View>
                 </View>

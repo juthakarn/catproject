@@ -7,10 +7,10 @@ const CustomHeader = props => {
     <View
       style={{
         height: 56,
-        marginTop: Platform.OS == "ios" ? 20 : 0 
+        marginTop: Platform.OS == "ios" ? 20 : 0
       }}
     >
-        <Header {...props} />
+      <Header {...props} />
     </View>
   );
 };
