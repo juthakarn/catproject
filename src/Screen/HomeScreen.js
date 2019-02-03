@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Mapview from '../Component/MapView'
 import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default class HomeScreen extends Component {
@@ -15,7 +16,7 @@ export default class HomeScreen extends Component {
     }
     return (
       <View style={styles.container}>
-        <Text>Hellowrold</Text>
+        <Mapview/>
       </View>
     )
   }
