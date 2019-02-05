@@ -1,6 +1,6 @@
 //router.js
 import React, { Component } from 'react';
-import { View } from "react-native";
+import { View,Text } from "react-native";
 import {
   createStackNavigator,
   createAppContainer,
@@ -17,6 +17,7 @@ import HomeScreen from '../Screen/HomeScreen';
 import DetailScreen from '../Screen/DetailScreen';
 import SettingScreen from '../Screen/SettingScreen';
 import AppointmentScreen from '../Screen/AppointmentScreen'
+import AddcatScreen from '../Screen/AddcatScreen'
 import tab1 from '../Screen/Tab1';
 import HeaderStyles from "../HeaderStyle";
 import CustomHeader from '../Component/CustomHeader'
@@ -40,30 +41,11 @@ const Register = createStackNavigator({
       header: null
     }
   },
-  HomScreen1: {
-    screen: HomScreen,
-    navigationOptions: {
-      headerLeft: null,
-      headerTitle: "Tab 2 Screen"
-    }
-  }
 })
 
-
-const Tab1Screen = createStackNavigator(
-  {
-    Tab1: {
-      screen: tab1,
-      navigationOptions: {
-        headerLeft: null,
-        headerTitle: "Tab 1 Screen"
-      }
-    }
-  }
-);
 const Detail = createStackNavigator(
   {
-    Tab1: {
+    DetailScreen: {
       screen: DetailScreen,
       navigationOptions: {
         headerLeft: null,
@@ -74,7 +56,7 @@ const Detail = createStackNavigator(
 );
 const Appointment = createStackNavigator(
   {
-    Tab1: {
+    AppointmentScreen: {
       screen: AppointmentScreen,
       navigationOptions: {
         headerLeft: null,
@@ -85,7 +67,7 @@ const Appointment = createStackNavigator(
 );
 const Setting = createStackNavigator(
   {
-    Tab1: {
+    SettingScreen: {
       screen: SettingScreen,
       navigationOptions: {
         headerLeft: null,
@@ -96,14 +78,13 @@ const Setting = createStackNavigator(
 );
 const HomeMapScreen = createStackNavigator(
   {
-    Tab1: {
+    HomeScreen: {
       screen: HomeScreen,
-      navigationOptions: {
-        headerLeft: null,
-        headerTitle: "Map"
-      }
+    },
+    CatScreen :{
+      screen: AddcatScreen,
     }
-  }
+  }, 
 );
 const AppStack = createBottomTabNavigator({
 
@@ -120,12 +101,7 @@ const AppStack = createBottomTabNavigator({
     screen: Setting
   }
 
-},
-  {
-    navigationOptions: {
-      ...headerDefaultNavigationConfig
-    }
-  })
+})
 
 const Route = createSwitchNavigator(
   {
