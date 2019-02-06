@@ -14,9 +14,6 @@ export default class HomeScreen extends Component {
     ),
   });
   render() {
-  console.log(this)
-
-
     const user = {
       name: 'kittinut',
       surname: 'pramhan',

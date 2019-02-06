@@ -37,7 +37,7 @@ const Register = createStackNavigator({
   SignUp: {
     screen: SignUpScreen,
     navigationOptions: {
-      title: "Sign In",
+      title: "Sign Up",
       header: null
     }
   },
