@@ -44,7 +44,9 @@ const SignUpScreen = ({ onChange, token, navigation, onSubmitHandler, isHasToken
                         (token === noRegistor || token === wrongPassword) && <Text style={styles.error}>{token}</Text>
                     }
                     <TouchableOpacity style={styles.buttonContainer}>
-                        <Text onPress={onSubmitHandler} style={styles.buttonText}>LOGIN</Text>
+                        <Text onPress={() => {
+                            navigation.navigate('App')
+                        }} style={styles.buttonText}>LOGIN</Text>
                     </TouchableOpacity>
                     <View style={styles.signupTextCont}>
                         <Text style={styles.signupText}>Don't have an account yet?</Text>

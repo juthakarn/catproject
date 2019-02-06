@@ -19,7 +19,6 @@ export const Signup = (data) => {
 export const Signin = (data) => {
   return async dispatch => {
     const res = await axios.post(`${HOST}/authentication/signin`, data)
-    console.log(res.data)
     dispatch({
       type: AUTHENTICATION_SIGNIN,
       payload: {
