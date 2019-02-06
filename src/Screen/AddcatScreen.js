@@ -47,6 +47,7 @@ const UploadImage = styled.Image`
   width: 200px;
   height: 200px;
   margin: 15%;
+  border-radius: 100;
 `
 const ScrollView = styled.ScrollView`
   background-color: ${Colors.BLUE_BACKGROUND};
