@@ -1,8 +1,10 @@
 import React from 'react'
 import { TouchableHighlight } from 'react-native'
+import {connect} from 'react-redux'
 import { compose, withHandlers, withState } from 'recompose'
 import styled from 'styled-components/native'
 import { Colors } from '../style/styles'
+import {uploadFindCat} from '../actions'
 import ImagePicker from 'react-native-image-picker'
 
 const Wrapper = styled.View`
@@ -55,10 +57,9 @@ const ScrollView = styled.ScrollView`
 
 const Button = styled.Button``
 
-const AddcatScreen = ({ uploadPicture, pictureState = false }) => (
+const AddcatScreen = ({navigation,isUploadcat, uploadPicture, pictureState = false , onChange, onSubmit}) => (
   <ScrollView>
     <Wrapper>
-      {console.log('pictureState', pictureState)}
       <TouchableHighlight
         onPress={uploadPicture}
       >
@@ -70,12 +71,14 @@ const AddcatScreen = ({ uploadPicture, pictureState = false }) => (
         <Div>
           <Label>Address</Label>
           <Input
+            onChangeText={(text) => onChange(text, 'address')}
             placeholder="address"
           />
         </Div>
         <Div>
           <Label>Contact</Label>
           <Input
+            onChangeText={(text) => onChange(text, 'contact')}
             placeholder="contact"
           />
         </Div>
@@ -84,19 +87,32 @@ const AddcatScreen = ({ uploadPicture, pictureState = false }) => (
           <Input
             multiline={true}
             numberOfLines={4}
+            onChangeText={(text) => onChange(text, 'message')}
             placeholder="Message"
           />
         </Div>
       </Div>
-      <Button title="Submit"></Button>
+      <Button title="Submit" onPress={onSubmit}></Button>
     </Wrapper >
   </ScrollView>
 )
+const mapDispatchToProps = dispatch =>({
+  uploadFile:(data)=> dispatch(uploadFindCat(data))
+})
+const mapStateToProps = ({findingcat}) =>{
+  const { isUploadcat=true } = findingcat
+  return {
+    isUploadcat
+  }
+}
 export default compose(
+  connect(mapStateToProps,mapDispatchToProps),
+  withState('payload','setPayload',{}),
+  withState('location','setlocation',{}),
   withState('pictureState', 'setPicture', false),
   withHandlers({
     uploadPicture: ({
-      pictureState,
+      setlocation,
       setPicture
     }) => () => {
       const options = {
@@ -116,10 +132,31 @@ export default compose(
         } else if (response.customButton) {
           console.log('User tapped custom button: ', response.customButton);
         } else {
-          const source = { uri: response.uri, width: 300, height: 300 };
+          console.log(response)
+          const source = response;
           setPicture(source)
         }
       });
-    }
+      navigator.geolocation.getCurrentPosition( position => {
+        const { coords } =  position;
+        
+        setlocation(coords)
+      },
+      error => Alert.alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 });
+      // Center the map on the location we just fetched.
+    },
+    onChange:({payload,setPayload})=>(text,name)=>{
+      setPayload({...payload, [name]:text})
+    },
+    onSubmit:({location,uploadFile,payload,pictureState,navigation})=>(props)=>{
+      const data = {
+        payload,
+        pictureState,
+        location,
+      }
+      uploadFile(data)
+      navigation.goBack()
+    },
   })
 )(AddcatScreen)

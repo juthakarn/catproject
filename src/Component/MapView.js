@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import {connect} from 'react-redux'
+import { Text, View, StyleSheet,Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
-export default class App extends Component {
+import styled from 'styled-components/native'
+import { fetchCatList } from '../actions';
+
+const PinImage = styled.Image`
+  width: 50;
+  height: 50;
+  border-radius: 100;
+`
+ class App extends Component {
+   
   state = {
     mapRegion: null,
     hasLocationPermissions: false,
@@ -10,6 +20,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this._getLocationAsync();
+    this.props.fetchCat()
   }
 
   _handleMapRegionChange = mapRegion => {
@@ -21,7 +32,7 @@ export default class App extends Component {
   navigator.geolocation.getCurrentPosition( position => {
       const locations = position;
       console.log(locations)
-      this.setState({ mapRegion: { latitude: locations.coords.latitude, longitude: locations.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } });
+      this.setState({ mapRegion: { latitude: locations.coords.latitude, longitude: locations.coords.longitude, latitudeDelta: 0.5, longitudeDelta: 0.5 } });
     },
     error => Alert.alert(error.message),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 });
@@ -44,16 +55,46 @@ export default class App extends Component {
                   style={{ alignSelf: 'stretch', height: '100%' }}
                   initialRegion={this.state.mapRegion}
                 >
-                  <Marker coordinate={this.state.mapRegion}
-                    title={'test'}
-                    description={'test discibbe'} />
+                {
+                  this.props.catlist.map(data=>{
+                    const {id,latitude,longitude,address,contact,imagepath,message} = data
+                    
+                    console.log('data',data)
+                    return (
+                    <Marker 
+                    key={id}
+                    coordinate={{latitude,longitude,latitudeDelta: 0.5, longitudeDelta: 0.5}}
+                    title={message}
+                    description={`สถานที่ติดต่อ:${address} เบอร์ติดต่อ: ${contact}`}>
+                    <View>
+                      <Image
+                       style={{width: 50, height: 50, borderTopRightRadius:100}}
+                       source={{uri: `http://localhost:3000/${imagepath}`}}
+                      />
+                    </View>
+                    </Marker>
+                    )
+                  })
+                }
+                  
                 </MapView>
+
         }
       </View>
 
     );
   }
 }
+const mapDispatchToProps = (dispatch)=>({
+  fetchCat: ()=>dispatch(fetchCatList())
+})
+const mapStateToProps = ({findingcat})=>{
+  const {list=[]} = findingcat
+  return {
+    catlist:list
+  }
+}
+export default  connect(mapStateToProps,mapDispatchToProps)(App)
 
 const styles = StyleSheet.create({
   container: {
