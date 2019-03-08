@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import auth from './authentication'
+import findingcat from './findingcat'
 const rootReducers = combineReducers({
-  auth
+  auth,
+  findingcat,
 })
 export default rootReducers

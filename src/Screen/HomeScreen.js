@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Mapview from '../Component/MapView'
+import styled from 'styled-components'
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
-
 export default class HomeScreen extends Component {
   static navigationOptions = ({ navigation })=> ({
     headerTitle: 'MapView',
