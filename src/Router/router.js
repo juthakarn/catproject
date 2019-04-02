@@ -15,6 +15,7 @@ import HomScreen from '../Screen/HomeScreen'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../Screen/HomeScreen';
 import DetailScreen from '../Screen/DetailScreen';
+import NewDetail from '../Screen/NewDetail';
 import SettingScreen from '../Screen/SettingScreen';
 import AppointmentScreen from '../Screen/AppointmentScreen'
 import AddcatScreen from '../Screen/AddcatScreen'
@@ -43,17 +44,7 @@ const Register = createStackNavigator({
   },
 })
 
-const Detail = createStackNavigator(
-  {
-    DetailScreen: {
-      screen: DetailScreen,
-      navigationOptions: {
-        headerLeft: null,
-        headerTitle: "Detail"
-      }
-    }
-  }
-);
+
 const Appointment = createStackNavigator(
   {
     AppointmentScreen: {
@@ -83,7 +74,10 @@ const HomeMapScreen = createStackNavigator(
     },
     CatScreen :{
       screen: AddcatScreen,
-    }
+    },
+    NewDetail:{
+      screen:NewDetail,
+    },
   }, 
 );
 const AppStack = createBottomTabNavigator({
@@ -91,9 +85,14 @@ const AppStack = createBottomTabNavigator({
   Home: {
     screen: HomeMapScreen,
   },
-  Detail: {
-    screen: Detail,
-  },
+  Detail: createStackNavigator({
+    Detail:{
+      screen:DetailScreen,
+    },
+    NewDetail:{
+      screen:NewDetail,
+    },
+  }),
   Appointment: {
     screen: Appointment
   },

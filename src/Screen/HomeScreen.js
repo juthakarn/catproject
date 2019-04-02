@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 export default class HomeScreen extends Component {
   static navigationOptions = ({ navigation })=> ({
-    headerTitle: 'MapView',
     headerRight: (
       <Button
         onPress={() => navigation.navigate("CatScreen")}

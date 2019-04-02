@@ -6,7 +6,8 @@ export const AUTHENTICATION_SIGNUP = 'AUTHENTICATION_SIGNUP'
 export const AUTHENTICATION_SIGNIN = 'AUTHENTICATION_SIGNIP'
 export const UPDATE_FIND_CAT = 'UPDATE_FIND_CAT'
 export const SET_UPLOAD_CAT = 'SET_UPLOAD_CAT'
-export const HOST = process.env.NODE_ENV === 'production' ? 'http://localhost:3000' : 'http://167.99.65.71:3000'
+export const SET_NEWS = 'SET_NEWS'
+export const HOST = process.env.NODE_ENV === 'production' ? 'http://167.99.65.71:3000' : 'http://localhost:3000'
 
 export const Signup = (data) => {
   return async dispatch => {
@@ -48,6 +49,17 @@ export const fetchCatList = () => {
     })
   }
 }
+
+export const  fetchNews =()=>{
+  return async dispatch =>{
+    const res = await  axios.get(`${HOST}/news`)
+    dispatch({
+      type: SET_NEWS,
+      payload: res.data
+    })
+  }
+}
+
 export const uploadFindCat = (payload) => {
   var data = new FormData();
   const file = R.pathOr('', ['pictureState'], payload)
