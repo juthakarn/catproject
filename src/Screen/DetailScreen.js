@@ -25,10 +25,11 @@ class Detail extends Component {
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         {
           list.map(data=>{
-            const  {title,subtitle,image} = data
+            const  {id,title,subtitle,image} = data
             if(data){
             return (
             <Card 
+            key={`card-data-${id}`}
             width={'90%'}
             featuredTitle={title}
             image={{uri:image}}
