@@ -18,10 +18,12 @@ import DetailScreen from '../Screen/DetailScreen';
 import NewDetail from '../Screen/NewDetail';
 import SettingScreen from '../Screen/SettingScreen';
 import AppointmentScreen from '../Screen/AppointmentScreen'
+import AppointmentStack from '../Screen/AppointmentStack/index'
 import AddcatScreen from '../Screen/AddcatScreen'
 import tab1 from '../Screen/Tab1';
 import HeaderStyles from "../HeaderStyle";
 import CustomHeader from '../Component/CustomHeader'
+import HospitalView from '../Screen/AppointmentStack/hospitalView';
 
 let headerDefaultNavigationConfig = {
   header: props => <CustomHeader {...props} />,
@@ -45,17 +47,16 @@ const Register = createStackNavigator({
 })
 
 
-const Appointment = createStackNavigator(
-  {
-    AppointmentScreen: {
-      screen: AppointmentScreen,
-      navigationOptions: {
-        headerLeft: null,
-        headerTitle: "Appointment"
-      }
-    }
-  }
-);
+// const Appointment = createStackNavigator(
+//   {
+//     AppointmentScreen: {
+//       screen: AppointmentScreen,
+//       navigationOptions: {
+//         headerLeft: null,
+//       }
+//     }
+//   }
+// );
 const Setting = createStackNavigator(
   {
     SettingScreen: {
@@ -78,14 +79,17 @@ const HomeMapScreen = createStackNavigator(
     NewDetail:{
       screen:NewDetail,
     },
+    AppointmentStack:{
+      screen:AppointmentStack,
+    },
   }, 
 );
 const AppStack = createBottomTabNavigator({
 
-  Home: {
+  'หน้าหลัก': {
     screen: HomeMapScreen,
   },
-  Detail: createStackNavigator({
+  'ข่าวสาร': createStackNavigator({
     Detail:{
       screen:DetailScreen,
     },
@@ -93,10 +97,18 @@ const AppStack = createBottomTabNavigator({
       screen:NewDetail,
     },
   }),
-  Appointment: {
-    screen: Appointment
-  },
-  Setting: {
+  'นัดหมาย':createStackNavigator({
+    Appointment:{
+      screen:AppointmentScreen,
+    },
+    AppointmentStack:{
+      screen:AppointmentStack,
+    },
+    hospitalViewStack:{
+      screen:HospitalView,
+    }
+  }),
+  'โปรไฟร์': {
     screen: Setting
   }
 

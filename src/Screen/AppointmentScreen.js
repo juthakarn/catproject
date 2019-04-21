@@ -1,40 +1,55 @@
 import React, { Component } from 'react';
-import { Text, View, Button,AppState} from 'react-native';
-import  PushNotification from 'react-native-push-notification'
+import { Text, View, ScrollView, Button, AppState } from 'react-native';
+import moment from 'moment'
+import { Card, ListItem, Icon } from 'react-native-elements'
+import { connect } from 'react-redux'
+import PushNotification from 'react-native-push-notification'
+import { fetchAppointment } from '../actions';
 
-class Setting extends Component {
-  componentDidMount(){
-    AppState.addEventListener('change',this.handlerAppStateChange)
-  }
-  componentWillUnmount(){
-    AppState.addEventListener('change',this.handlerAppStateChange)
-  }
-  handlerAppStateChange=(AppState)=>{
-    if(AppState=='background'){
-      PushNotification.localNotificationSchedule({
-        message:'test notification',
-        date: new Date(Date.now() + (5000))
-      })
-    }
-  }
+class Appointment extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <Button
+        onPress={() => navigation.navigate("AppointmentStack")}
+        title="สร้างรายการแจ้งเตือน"
+        color="#007AC2"
+      />
+    ),
+  });
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Appointment Screen</Text>
-        <Button
-          title="press12"
-          raised
-          onPress={() => this.props.navigation.navigate("DetailScreen", { hideTabBar: true })}
-        />
-        <Button
-          title="press1"
-          raised
-          onPress={() => this.props.navigation.navigate("Tab2", { hideTabBar: true })}
-        >
-          <Text>โรคที่ควรรู้เบื้องต้น</Text>
-        </Button>
-      </View>
+      <ScrollView>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          {
+            this.props.appointment.map(({ id, date, hospital, detail }) => {
+              return (
+                <Card
+                  key={`card-data-${id}`}
+                  width={'90%'}
+                  title={`เรื่อง ${detail}`}
+                >
+                  <Text style={{ color: '#000' }}>เวลา​{moment(date).format('llll')}</Text>
+                  {hospital ? <Text style={{ color: '#000' }} key={id}>ที่ {hospital}</Text> : null}
+                </Card>
+              )
+            })
+          }
+          {
+            this.props.appointment.length == 0 && <Text style={{ marginTop: 20 }}>ไม่มีรายการแจ้งเตือน</Text>
+          }
+
+        </View>
+      </ScrollView>
     )
   }
 }
-export default Setting
+const mapStateToProps = ({ appointment }) => {
+  return {
+    appointment
+  }
+}
+const mapDisPatchToProps = (dispatch) => ({
+  handlerFetchAppointment: () => dispatch(fetchAppointment())
+})
+
+export default connect(mapStateToProps, mapDisPatchToProps)(Appointment)

@@ -1,14 +1,87 @@
 
 import axios from 'axios'
 import * as R from 'ramda'
+import { AsyncStorage } from 'react-native';
 import moment from 'moment'
 export const AUTHENTICATION_SIGNUP = 'AUTHENTICATION_SIGNUP'
 export const AUTHENTICATION_SIGNIN = 'AUTHENTICATION_SIGNIP'
 export const UPDATE_FIND_CAT = 'UPDATE_FIND_CAT'
 export const SET_UPLOAD_CAT = 'SET_UPLOAD_CAT'
 export const SET_NEWS = 'SET_NEWS'
+export const SET_APPOINTMENT = 'SET_APPOINTMENT'
 export const HOST = process.env.NODE_ENV === 'production' ? 'http://167.99.65.71:3000' : 'http://localhost:3000'
 
+export const fetchToken = () => {
+  return async dispatch => {
+    try {
+      const token = await AsyncStorage.getItem('token', token);
+      if (token !== null) {
+        const payload = {
+          message: 'success',
+          token: token
+        }
+        dispatch({
+          type: AUTHENTICATION_SIGNUP,
+          payload: {
+            token: payload
+          }
+        })
+      }
+    } catch (e) {
+
+    }
+  }
+}
+export const fetchAppointment = () => {
+  return async dispatch => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const res = await axios.get(`${HOST}/get/appointment`, {
+        headers: {
+          authorization: token
+        }
+      })
+      await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
+      dispatch({
+        type: SET_APPOINTMENT,
+        payload: res.data,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+export const addNewAppointment = (data) => {
+  return async dispatch => {
+    try {
+      const { dateValue, hospital, detail } = data
+      const payload = {
+        dateValue,
+        hospital,
+        detail,
+      }
+      const token = await AsyncStorage.getItem('token');
+      const res = await axios.post(`${HOST}/add/appointment`, payload, {
+        headers: {
+          authorization: token
+        }
+      })
+      const appointmentList = await AsyncStorage.getItem('appointment');
+      console.log(res.data)
+      if (appointmentList !== null) {
+        if (appointmentList !== res.data) {
+          await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
+          dispatch({
+            type: SET_APPOINTMENT,
+            payload: res.data,
+          })
+        }
+      }
+    } catch (e) {
+
+    }
+  }
+}
 export const Signup = (data) => {
   return async dispatch => {
     const { name, surname, email, password } = data
@@ -31,6 +104,13 @@ export const Signup = (data) => {
 export const Signin = (data) => {
   return async dispatch => {
     const res = await axios.post(`${HOST}/authentication/signin`, data)
+    const { token } = res.data
+    console.log(res.data)
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (e) {
+      console.log(e)
+    }
     dispatch({
       type: AUTHENTICATION_SIGNIN,
       payload: {
@@ -50,9 +130,9 @@ export const fetchCatList = () => {
   }
 }
 
-export const  fetchNews =()=>{
-  return async dispatch =>{
-    const res = await  axios.get(`${HOST}/news`)
+export const fetchNews = () => {
+  return async dispatch => {
+    const res = await axios.get(`${HOST}/news`)
     dispatch({
       type: SET_NEWS,
       payload: res.data
