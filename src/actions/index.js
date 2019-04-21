@@ -67,7 +67,6 @@ export const addNewAppointment = (data) => {
         }
       })
       const appointmentList = await AsyncStorage.getItem('appointment');
-      console.log(res.data)
       if (appointmentList !== null) {
         if (appointmentList !== res.data) {
           await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
@@ -92,7 +91,6 @@ export const Signup = (data) => {
       password
     }
     const res = await axios.post(`${HOST}/authentication/signup`, form)
-    console.log(res.data)
     dispatch({
       type: AUTHENTICATION_SIGNUP,
       payload: {
@@ -105,7 +103,6 @@ export const Signin = (data) => {
   return async dispatch => {
     const res = await axios.post(`${HOST}/authentication/signin`, data)
     const { token } = res.data
-    console.log(res.data)
     try {
       await AsyncStorage.setItem('token', token);
     } catch (e) {
@@ -161,10 +158,8 @@ export const uploadFindCat = (payload) => {
   data.append('message', message)
   data.append('latitude', latitude)
   data.append('longitude', longitude)
-  console.log(data)
   return async dispatch => {
     const res = await axios.post(`${HOST}/cat`, data, { headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' } })
-    console.log(res)
     dispatch({
       type: UPDATE_FIND_CAT,
       payload: res.data

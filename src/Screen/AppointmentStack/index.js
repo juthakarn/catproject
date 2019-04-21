@@ -40,7 +40,6 @@ class AppointmentStack extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
     this.setState({
       dateValue: date
     })
@@ -59,7 +58,6 @@ class AppointmentStack extends Component {
   render() {
     const { dateValue, hospital } = this.state
     const { navigation } = this.props
-    console.log('this', this.props)
     return (
       <View style={{ flex: 1, paddingTop: 50, justifyContent: "flex-start", alignItems: "center" }}>
         <TouchedComponent onPress={this._showDateTimePicker}>
@@ -69,7 +67,7 @@ class AppointmentStack extends Component {
             size={40}
             type='font-awesome'
             color='#f50'
-            onPress={() => console.log('hello')} />
+       />
         </TouchedComponent>
         <TouchedComponent onPress={() => navigation.navigate('hospitalViewStack', {
           handleHospital: this._handleHospital,

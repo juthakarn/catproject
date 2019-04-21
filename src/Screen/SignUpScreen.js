@@ -18,7 +18,6 @@ class SignUpComponent extends Component {
   render() {
     const { token, onSignup, navigation } = this.props
     if (token) {
-      console.log('noundified')
       navigation.navigate('App')
     }
     const onChange = (text, name) => {

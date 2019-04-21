@@ -31,8 +31,6 @@ class App extends Component {
     AppState.addEventListener('change', this.handlerAppStateChange)
   }
   handlerAppStateChange = (AppState) => {
-    console.log(AppState)
-    console.log(this.props.appointment)
     if (AppState == 'background') {
 
       this.props.appointment.map(({ id, date, hospital, detail }) => {
@@ -50,7 +48,6 @@ class App extends Component {
   }
 
   _handleNotification = () => {
-    console.log('no')
     PushNotification.localNotificationSchedule({
       foreground: true,
       message: 'test notification',
@@ -59,14 +56,12 @@ class App extends Component {
     })
   }
   _handleMapRegionChange = mapRegion => {
-    console.log(mapRegion);
     this.setState({ mapRegion });
   };
 
   _getLocationAsync = async () => {
     navigator.geolocation.getCurrentPosition(position => {
       const locations = position;
-      console.log(locations)
       this.setState({
         mapRegion: {
           latitude: locations.coords.latitude,
@@ -85,10 +80,7 @@ class App extends Component {
     // this._handleNotification()
     return (
       <View style={styles.container}>
-        {
-          console.log('mapRegi', this.state.mapRegion)
-
-        }
+        
         {
           this.state.locationResult === null ?
             <Text>Finding your current location...</Text> :
