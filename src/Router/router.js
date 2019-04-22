@@ -63,7 +63,7 @@ const Setting = createStackNavigator(
       screen: SettingScreen,
       navigationOptions: {
         headerLeft: null,
-        headerTitle: "Setting"
+        headerTitle: "โปรไฟร์"
       }
     }
   }

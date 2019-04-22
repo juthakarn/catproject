@@ -77,7 +77,7 @@ class App extends Component {
   };
 
   render() {
-    // this._handleNotification()
+    console.log(this)
     return (
       <View style={styles.container}>
         

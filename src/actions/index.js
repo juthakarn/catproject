@@ -9,8 +9,32 @@ export const UPDATE_FIND_CAT = 'UPDATE_FIND_CAT'
 export const SET_UPLOAD_CAT = 'SET_UPLOAD_CAT'
 export const SET_NEWS = 'SET_NEWS'
 export const SET_APPOINTMENT = 'SET_APPOINTMENT'
-export const HOST = process.env.NODE_ENV === 'production' ? 'http://167.99.65.71:3000' : 'http://localhost:3000'
+export const SET_USER = 'SET_USER'
+export const HOST = process.env.NODE_ENV === 'production' ? 'http://157.230.241.88:3000' : 'http://localhost:3000'
+export const LOG_OUT = 'LOG_OUT'
 
+export const logout = ()=>{
+  return async dispatch =>{
+    await AsyncStorage.removeItem('token')
+    dispatch({
+      type:LOG_OUT,
+    })
+  }
+}
+export const fetchUser = ()=>{
+  return async dispatch =>{
+    const token = await AsyncStorage.getItem('token', token);
+    const res = await axios.get(`${HOST}/user`, {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch({
+      type:SET_USER,
+      payload:res.data
+    })
+  }
+}
 export const fetchToken = () => {
   return async dispatch => {
     try {
@@ -120,6 +144,7 @@ export const Signin = (data) => {
 export const fetchCatList = () => {
   return async dispatch => {
     const res = await axios.get(`${HOST}/catlist`)
+    console.log(res.data)
     dispatch({
       type: UPDATE_FIND_CAT,
       payload: res.data

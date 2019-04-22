@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, StatusBar, KeyboardAvoidingView, Image, Button } from 'react-native';
 import { connect } from 'react-redux'
-import { compose, lifecycle, withState, withHandlers } from 'recompose'
-import { Signin, fetchToken } from '../actions'
+import { compose,lifecycle, withState, withHandlers } from 'recompose'
+import { Signin,fetchToken } from '../actions'
 const noRegistor = 'Not regist already?Please Signup'
 const wrongPassword = 'We cannot found your email or password'
 //() => { props.navigation.navigate('App') 
@@ -62,19 +62,19 @@ const mapStateToprops = ({ auth }) => {
 }
 const mapDispatchToProps = dispatch => ({
     onSubmit: data => dispatch(Signin(data)),
-    handleFetchToken: () => dispatch(fetchToken())
+    handleFetchToken:()=>dispatch(fetchToken())
 })
 export default compose(
     connect(mapStateToprops, mapDispatchToProps),
     lifecycle({
-        componentDidMount() {
+        componentDidMount(){
             this.props.handleFetchToken()
         }
     }),
     withState('state', 'setState', { email: '', password: '' }),
     withHandlers({
         onChange: ({ setState, state }) => (text, name) => {
-            setState({ ...state, [name]: text }),
+            setState({ ...state, [name]: text })
         },
         onSubmitHandler: ({ state, onSubmit, navigation }) => () => {
             onSubmit(state)

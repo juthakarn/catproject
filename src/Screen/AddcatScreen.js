@@ -69,30 +69,30 @@ const AddcatScreen = ({navigation,isUploadcat, uploadPicture, pictureState = fal
       </TouchableHighlight>
       <Div>
         <Div>
-          <Label>Address</Label>
+          <Label>สถานที่</Label>
           <Input
             onChangeText={(text) => onChange(text, 'address')}
-            placeholder="address"
+            placeholder="สถานที่"
           />
         </Div>
         <Div>
-          <Label>Contact</Label>
+          <Label>ข้อมูลติดต่อ</Label>
           <Input
             onChangeText={(text) => onChange(text, 'contact')}
-            placeholder="contact"
+            placeholder="ข้อมูลติดต่อ"
           />
         </Div>
         <Div>
-          <Label>Message</Label>
+          <Label>ข้อความ</Label>
           <Input
             multiline={true}
             numberOfLines={4}
             onChangeText={(text) => onChange(text, 'message')}
-            placeholder="Message"
+            placeholder="ข้อความ"
           />
         </Div>
       </Div>
-      <Button title="Submit" onPress={onSubmit}></Button>
+      <Button title="ยืนยัน" onPress={onSubmit}></Button>
     </Wrapper >
   </ScrollView>
 )
@@ -117,7 +117,6 @@ export default compose(
     }) => () => {
       const options = {
         title: 'Select Avatar',
-        customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
         storageOptions: {
           skipBackup: true,
           path: 'images',
