@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, StatusBar, KeyboardAvoidingView, Image, Button } from 'react-native';
 import { connect } from 'react-redux'
-import { compose, withState, withHandlers } from 'recompose'
-import { Signin } from '../actions'
+import { compose,lifecycle, withState, withHandlers } from 'recompose'
+import { Signin,fetchToken } from '../actions'
 const noRegistor = 'Not regist already?Please Signup'
 const wrongPassword = 'We cannot found your email or password'
 //() => { props.navigation.navigate('App') 
-const SignUpScreen = ({ onChange, token, navigation, onSubmitHandler, isHasToken }, ...props) => {
+const SignUpScreen = ({ onChange, token, navigation, onSubmitHandler, handleFetchToken, isHasToken }, ...props) => {
     if (token !== noRegistor && token !== wrongPassword && token) {
         navigation.navigate('App')
     }
@@ -61,15 +61,20 @@ const mapStateToprops = ({ auth }) => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    onSubmit: data => dispatch(Signin(data))
+    onSubmit: data => dispatch(Signin(data)),
+    handleFetchToken:()=>dispatch(fetchToken())
 })
 export default compose(
     connect(mapStateToprops, mapDispatchToProps),
+    lifecycle({
+        componentDidMount(){
+            this.props.handleFetchToken()
+        }
+    }),
     withState('state', 'setState', { email: '', password: '' }),
     withHandlers({
         onChange: ({ setState, state }) => (text, name) => {
-            setState({ ...state, [name]: text }),
-                console.log('email', state)
+            setState({ ...state, [name]: text })
         },
         onSubmitHandler: ({ state, onSubmit, navigation }) => () => {
             onSubmit(state)
@@ -80,7 +85,6 @@ export default compose(
             if (token !== noRegistor && token !== wrongPassword && token) {
                 return false
             }
-            console.log('token', token)
         }
     })
 )(SignUpScreen)

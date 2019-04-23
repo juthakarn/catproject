@@ -9,6 +9,7 @@
 
 import React, { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
+import PushNotification from './src/Component/PushNotificaition'
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk'
@@ -32,6 +33,7 @@ export default class App extends Component<Props> {
     return (
       <Provider store={store}>
         <Router />
+        <PushNotification/>
       </Provider>
     );
   }

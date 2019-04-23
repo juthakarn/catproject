@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import moment from 'moment';
+
 import { connect } from 'react-redux'
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, AppState } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
 import styled from 'styled-components/native'
-import { fetchCatList, HOST } from '../actions';
+import { fetchCatList, HOST, fetchAppointment } from '../actions';
+import PushNotification from 'react-native-push-notification'
 
 const PinImage = styled.Image`
   width: 50;
@@ -21,17 +24,44 @@ class App extends Component {
   componentDidMount() {
     this._getLocationAsync();
     this.props.fetchCat()
+    this.props.handlerFetchAppointment()
+    AppState.addEventListener('change', this.handlerAppStateChange)
+  }
+  componentWillUnmount() {
+    AppState.addEventListener('change', this.handlerAppStateChange)
+  }
+  handlerAppStateChange = (AppState) => {
+    if (AppState == 'background') {
+
+      this.props.appointment.map(({ id, date, hospital, detail }) => {
+        PushNotification.localNotificationSchedule({
+          userInfo: { id: `${id}` },
+          title: 'นัดหมายสัตว์เลี้ยง',
+          message: `${detail}  ${hospital ? `ที่ ${hospital}` : ''} เวลา ${moment(date).format('llll')}`,
+          date: new Date(date),
+          repeatType: 'hour'
+        })
+      })
+    } else {
+      PushNotification.cancelAllLocalNotifications()
+    }
   }
 
+  _handleNotification = () => {
+    PushNotification.localNotificationSchedule({
+      foreground: true,
+      message: 'test notification',
+      date: new Date(Date.now() + (5000)),
+      badge: 1
+    })
+  }
   _handleMapRegionChange = mapRegion => {
-    console.log(mapRegion);
     this.setState({ mapRegion });
   };
 
   _getLocationAsync = async () => {
     navigator.geolocation.getCurrentPosition(position => {
       const locations = position;
-      console.log(locations)
       this.setState({
         mapRegion: {
           latitude: locations.coords.latitude,
@@ -47,12 +77,10 @@ class App extends Component {
   };
 
   render() {
+    console.log(this)
     return (
       <View style={styles.container}>
-        {
-          console.log('mapRegi', this.state.mapRegion)
-
-        }
+        
         {
           this.state.locationResult === null ?
             <Text>Finding your current location...</Text> :
@@ -91,12 +119,14 @@ class App extends Component {
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  fetchCat: () => dispatch(fetchCatList())
+  fetchCat: () => dispatch(fetchCatList()),
+  handlerFetchAppointment: () => dispatch(fetchAppointment())
 })
-const mapStateToProps = ({ findingcat }) => {
+const mapStateToProps = ({ findingcat, appointment }) => {
   const { list = [] } = findingcat
   return {
-    catlist: list
+    catlist: list,
+    appointment
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)
