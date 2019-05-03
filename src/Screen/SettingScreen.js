@@ -10,7 +10,6 @@ class Setting extends Component {
 
   render() {
     const {firstname,lastname,email} = this.props.user
-    console.log(this.props)
     return (
       <View style={styles.container}>
         <View style={styles.logoContainer}>

@@ -10,7 +10,6 @@ const CustomHeader = props => {
         marginTop: Platform.OS == "ios" ? 20 : 0
       }}
     >
-      {console.log('gerer',props)}
       <Header {...props} />
     </View>
   );
