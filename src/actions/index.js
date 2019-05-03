@@ -90,16 +90,10 @@ export const addNewAppointment = (data) => {
           authorization: token
         }
       })
-      const appointmentList = await AsyncStorage.getItem('appointment');
-      if (appointmentList !== null) {
-        if (appointmentList !== res.data) {
-          await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
-          dispatch({
+      dispatch({
             type: SET_APPOINTMENT,
             payload: res.data,
           })
-        }
-      }
     } catch (e) {
       console.log(e)
     }
