@@ -20,11 +20,13 @@ class App extends Component {
     hasLocationPermissions: false,
     locations: null
   };
+  componentWillMount(){
+    this.props.handlerFetchAppointment()
+    this.props.fetchCat()
 
+  }
   componentDidMount() {
     this._getLocationAsync();
-    this.props.fetchCat()
-    this.props.handlerFetchAppointment()
     AppState.addEventListener('change', this.handlerAppStateChange)
   }
   componentWillUnmount() {
@@ -77,7 +79,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this)
     return (
       <View style={styles.container}>
         

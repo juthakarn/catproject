@@ -10,19 +10,19 @@ export const SET_UPLOAD_CAT = 'SET_UPLOAD_CAT'
 export const SET_NEWS = 'SET_NEWS'
 export const SET_APPOINTMENT = 'SET_APPOINTMENT'
 export const SET_USER = 'SET_USER'
-export const HOST = process.env.NODE_ENV === 'production' ? 'http://157.230.241.88:3000' : 'http://localhost:3000'
+export const HOST = process.env.NODE_ENV === 'production' ? 'http://157.230.241.88:3000' : 'http://157.230.241.88:3000'
 export const LOG_OUT = 'LOG_OUT'
 
-export const logout = ()=>{
-  return async dispatch =>{
+export const logout = () => {
+  return async dispatch => {
     await AsyncStorage.removeItem('token')
     dispatch({
-      type:LOG_OUT,
+      type: LOG_OUT,
     })
   }
 }
-export const fetchUser = ()=>{
-  return async dispatch =>{
+export const fetchUser = () => {
+  return async dispatch => {
     const token = await AsyncStorage.getItem('token', token);
     const res = await axios.get(`${HOST}/user`, {
       headers: {
@@ -30,8 +30,8 @@ export const fetchUser = ()=>{
       }
     })
     dispatch({
-      type:SET_USER,
-      payload:res.data
+      type: SET_USER,
+      payload: res.data
     })
   }
 }
@@ -65,7 +65,7 @@ export const fetchAppointment = () => {
           authorization: token
         }
       })
-      await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
+      // await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
       dispatch({
         type: SET_APPOINTMENT,
         payload: res.data,
@@ -90,18 +90,12 @@ export const addNewAppointment = (data) => {
           authorization: token
         }
       })
-      const appointmentList = await AsyncStorage.getItem('appointment');
-      if (appointmentList !== null) {
-        if (appointmentList !== res.data) {
-          await AsyncStorage.setItem('appointment', JSON.stringify(res.data));
-          dispatch({
+      dispatch({
             type: SET_APPOINTMENT,
             payload: res.data,
           })
-        }
-      }
     } catch (e) {
-
+      console.log(e)
     }
   }
 }
@@ -115,6 +109,12 @@ export const Signup = (data) => {
       password
     }
     const res = await axios.post(`${HOST}/authentication/signup`, form)
+    const {token} = res.data
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (e) {
+      console.log(e)
+    }
     dispatch({
       type: AUTHENTICATION_SIGNUP,
       payload: {
@@ -144,7 +144,6 @@ export const Signin = (data) => {
 export const fetchCatList = () => {
   return async dispatch => {
     const res = await axios.get(`${HOST}/catlist`)
-    console.log(res.data)
     dispatch({
       type: UPDATE_FIND_CAT,
       payload: res.data

@@ -4,7 +4,8 @@ import { SET_USER,LOG_OUT } from "../actions";
 export default (state = {}, action) => {
   switch (action.type) {
     case SET_USER: //{message:'success',user:{}}
-      return action.payload.user
+      state = action.payload.user
+      return state
     case LOG_OUT:
       state = {}
       return state
