@@ -109,6 +109,12 @@ export const Signup = (data) => {
       password
     }
     const res = await axios.post(`${HOST}/authentication/signup`, form)
+    const {token} = res.data
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (e) {
+      console.log(e)
+    }
     dispatch({
       type: AUTHENTICATION_SIGNUP,
       payload: {
