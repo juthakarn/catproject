@@ -23,7 +23,7 @@ export default class HomeScreen extends Component {
     }
     return (
       <View style={styles.container}>
-        <Mapview/>
+        <Mapview {...this.props}/>
       </View>
     )
   }

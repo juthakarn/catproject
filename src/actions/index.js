@@ -21,6 +21,17 @@ export const logout = () => {
     })
   }
 }
+
+export const ReceiveCat = (id)=>{
+  return async dispatch =>{
+    const res = await axios.delete(`${HOST}/catlist/${id}`)
+    dispatch({
+      type: UPDATE_FIND_CAT,
+      payload: res.data
+    })
+  }
+}
+
 export const fetchUser = () => {
   return async dispatch => {
     const token = await AsyncStorage.getItem('token', token);
