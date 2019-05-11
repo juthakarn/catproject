@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image, AppState } from 'react-native';
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker,Callout } from 'react-native-maps'
 import styled from 'styled-components/native'
 import { fetchCatList, HOST, fetchAppointment } from '../actions';
 import PushNotification from 'react-native-push-notification'
@@ -61,6 +61,10 @@ class App extends Component {
     this.setState({ mapRegion });
   };
 
+  handleChangeViewMarker=(data)=>{
+    const {navigation} = this.props
+    navigation.navigate("MarkerScreen",{data:data})
+  }
   _getLocationAsync = async () => {
     navigator.geolocation.getCurrentPosition(position => {
       const locations = position;
@@ -97,9 +101,11 @@ class App extends Component {
                     return (
                       <Marker
                         key={id}
+                        onCalloutPress={()=>this.handleChangeViewMarker(data)}
                         coordinate={{ latitude, longitude, latitudeDelta: 0.5, longitudeDelta: 0.5 }}
                         title={message}
                         description={`สถานที่ติดต่อ:${address} เบอร์ติดต่อ: ${contact}`}>
+                    
                         <View>
                           <Image
                             style={{ width: 50, height: 50, borderTopRightRadius: 100 }}

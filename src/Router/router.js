@@ -24,6 +24,7 @@ import tab1 from '../Screen/Tab1';
 import HeaderStyles from "../HeaderStyle";
 import CustomHeader from '../Component/CustomHeader'
 import HospitalView from '../Screen/AppointmentStack/hospitalView';
+import MarkerView from '../Component/MarkerView';
 
 let headerDefaultNavigationConfig = {
   header: props => <CustomHeader {...props} />,
@@ -72,6 +73,9 @@ const HomeMapScreen = createStackNavigator(
   {
     HomeScreen: {
       screen: HomeScreen,
+    },
+    MarkerScreen:{
+      screen:MarkerView,
     },
     CatScreen :{
       screen: AddcatScreen,
